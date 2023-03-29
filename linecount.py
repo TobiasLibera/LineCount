@@ -16,6 +16,7 @@ parser = argparse.ArgumentParser(   prog="Line Counter",
 parser.add_argument('-d', '--directory', default=".", nargs="?", help="path to directory", type=pathlib.Path)
 parser.add_argument('-f', '--failed-files', default=False, action="store_true", help="if flag is set, all failed files will be printed")
 parser.add_argument('-t', '--time', default=False, action="store_true", help="if flag is set, used time will be printed")
+parser.add_argument('-r', '--recursive', default=False, action="store_true", help="if flag is set, all subdirectorys are taken into account")
 parser.add_argument('e', nargs="+", help="file extension to be parsed")
 
 
@@ -52,7 +53,8 @@ class LineCounter:
             path = path / data
 
             if path.is_dir():
-                cls.iter_directorys(path)
+                if cls.ARGS.recursive:
+                    cls.iter_directorys(path)
 
             elif path.is_file():
                 for extns in cls.ARGS.e:
